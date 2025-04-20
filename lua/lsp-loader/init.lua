@@ -63,6 +63,25 @@ local function del_keymap(mode, keymap, bufnr)
   vim.keymap.del(mode, keymap, { buffer = bufnr })
 end
 
+--- Remove the default LSP keymaps.
+--- If [bufnr] is given then it removes only the buffer specific ones.
+--- See |lsp-defaults-disable|
+--- @param opts lsp_loader.Opts
+local function remove_default_keymaps(opts, bufnr)
+  if opts.remove_default_keymaps then
+    if bufnr then
+      del_keymap("n", "K", bufnr)
+    else
+      del_keymap("n", "grn")
+      del_keymap({ "n", "x" }, "gra")
+      del_keymap("n", "grr")
+      del_keymap("n", "gri")
+      del_keymap("n", "gO")
+      del_keymap("i", "<c-s>")
+    end
+  end
+end
+
 --- Set LSP keymaps for the given buffer.
 --- @param opts lsp_loader.Opts
 --- @param bufnr integer
@@ -134,6 +153,7 @@ local function setup_on_attach(opts)
         client.server_capabilities.semanticTokensProvider = nil
       end
 
+      remove_default_keymaps(opts, args.buf)
       set_keymaps(opts, args.buf)
 
       if opts.on_attach then
@@ -143,19 +163,6 @@ local function setup_on_attach(opts)
     group = group,
     desc = "LSP on attach",
   })
-end
-
---- Remove the default LSP keymaps.
---- See |lsp-defaults-disable|
---- @param opts lsp_loader.Opts
-local function remove_default_keymaps(opts)
-  if opts.remove_default_keymaps then
-    del_keymap("n", "grn")
-    del_keymap({ "n", "x" }, "gra")
-    del_keymap("n", "grr")
-    del_keymap("n", "gri")
-    del_keymap("n", "gO")
-  end
 end
 
 --- @param opts? lsp_loader.Opts
