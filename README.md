@@ -80,7 +80,7 @@ require("lsp-loader").setup({
     workspace_symbols = "gS",
     code_action = "<leader>a",
     rename = "<leader>r",
-    signature_help = "<c-s>"
+    signature_help = "<c-s>",
     diagnostics = "<leader>d",
     hover = "K",
   },
