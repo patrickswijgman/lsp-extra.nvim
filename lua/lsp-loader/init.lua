@@ -16,9 +16,9 @@ local M = {}
 --- @field workspace_symbols? string
 --- @field code_action? string
 --- @field rename? string
---- @field signature_help? string
 --- @field completion? string
 --- @field diagnostics? string
+--- @field signature_help? string
 --- @field hover? string
 
 --- @class lsp_loader.Opts
@@ -87,19 +87,6 @@ local function set_keymaps(opts, bufnr)
     vim.diagnostic.setqflist({ open = true })
   end
 
-  local hover_keymap = "K"
-  if opts.keymaps and opts.keymaps.hover then
-    hover_keymap = opts.keymaps.hover
-  end
-
-  local signature_help_keymap = "<c-s>"
-  if opts.keymaps and opts.keymaps.signature_help then
-    signature_help_keymap = opts.keymaps.signature_help
-  end
-
-  set_keymap("n", hover_keymap, hover, bufnr, "LSP hover", true)
-  set_keymap("i", signature_help_keymap, signature_help, bufnr, "LSP signature help")
-
   if opts.keymaps then
     set_keymap("n", opts.keymaps.definition, vim.lsp.buf.definition, bufnr, "LSP definition")
     set_keymap("n", opts.keymaps.type_definition, vim.lsp.buf.type_definition, bufnr, "LSP type definition")
@@ -111,6 +98,8 @@ local function set_keymaps(opts, bufnr)
     set_keymap("n", opts.keymaps.rename, vim.lsp.buf.rename, bufnr, "LSP rename")
     set_keymap("i", opts.keymaps.completion, completion, bufnr, "LSP completion")
     set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics")
+    set_keymap("i", opts.keymaps.signature_help, signature_help, bufnr, "LSP signature help")
+    set_keymap("n", opts.keymaps.hover, hover, bufnr, "LSP hover", true)
   end
 end
 

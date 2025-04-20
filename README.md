@@ -56,13 +56,15 @@ require("lsp-loader").setup({
   },
 
   -- Set options for the hover window.
+  -- REQUIRES that it is added in the `keymaps` option for it to work.
   hover = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
     -- then this will fit in nicely.
-    border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
+    border = "rounded",
   },
 
   -- Set options for the signature help window.
+  -- REQUIRES that it is added in the `keymaps` option for it to work.
   signature_help = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
     -- then this will fit in nicely.
@@ -94,10 +96,10 @@ require("lsp-loader").setup({
     workspace_symbols = "gS",
     code_action = "<leader>a",
     rename = "<leader>r",
-    signature_help = "<c-s>",
     completion = "<c-space>",
     diagnostics = "<leader>d",
-    hover = "K",
+    signature_help = "<c-s>", -- Required if `signature_help` option is set.
+    hover = "K", -- Required if `hover` option is set.
   },
 
   -- On attach function for all language servers.
