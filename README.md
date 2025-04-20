@@ -12,7 +12,7 @@ This small plugin loads those LSP configs automatically for you! Then you no lon
 All options are optional, to simply load the language servers automatically you can do:
 
 ```lua
-require("lsp-helper").setup()
+require("lsp-loader").setup()
 ```
 
 ### Example (with all available options)
