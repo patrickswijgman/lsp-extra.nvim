@@ -8,7 +8,6 @@ local M = {}
 --- @field trigger_on_all_characters? boolean
 
 --- @class lsp_loader.Keymaps
---- @field remove_defaults? boolean
 --- @field definition? string
 --- @field type_definition? string
 --- @field references? string
@@ -28,6 +27,7 @@ local M = {}
 --- @field hover? lsp_loader.HoverOpts
 --- @field signature_help? lsp_loader.SignatureHelpOpts
 --- @field disable_semantic_tokens? boolean
+--- @field remove_default_keymaps? boolean
 --- @field keymaps? lsp_loader.Keymaps
 --- @field on_attach? fun(client: vim.lsp.Client, bufnr: integer)
 
@@ -98,7 +98,7 @@ local function setup_keymaps(opts, bufnr)
   end
 
   -- See |lsp-defaults-disable|
-  if opts.keymaps.remove_defaults then
+  if opts.remove_default_keymaps then
     del_keymap("n", "grn", bufnr)
     del_keymap({ "n", "x" }, "gra", bufnr)
     del_keymap("n", "grr", bufnr)

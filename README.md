@@ -72,19 +72,19 @@ require("lsp-loader").setup({
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
   disable_semantic_tokens = true,
 
+  -- Set this to true to remove default LSP keymaps.
+  --
+  -- See `:h lsp-defaults-disable` for more info.
+  --
+  -- For example 'grr' and 'gra' are mapped by default which does not play
+  -- nicely if we want to map 'gr' to 'references' (see below).
+  remove_default_keymaps = true,
+
   -- Setup keymaps for LSP actions.
   --
   -- If you're like me and don't like the builtin LSP keymaps, this plugin provides a
   -- convenient way to set some or all of them.
   keymaps = {
-    -- Set this to true to remove default LSP keymaps.
-    --
-    -- See `:h lsp-defaults-disable` for more info.
-    --
-    -- For example 'grr' and 'gra' are mapped by default which does not play
-    -- nicely if we want to map 'gr' to 'references' (see below).
-    remove_defaults = true,
-
     -- Below is an example (Helix style)
     definition = "gd",
     type_definition = "gy",
