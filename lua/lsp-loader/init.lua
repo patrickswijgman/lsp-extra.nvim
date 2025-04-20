@@ -19,6 +19,7 @@ local M = {}
 --- @field signature_help? string
 --- @field diagnostics? string
 --- @field hover? string
+--- @field completion? string
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
@@ -69,6 +70,10 @@ local function setup_keymaps(opts, bufnr)
     vim.lsp.buf.workspace_symbol("")
   end
 
+  local function completion()
+    vim.lsp.completion.get()
+  end
+
   local function diagnostics()
     vim.diagnostic.setqflist({ open = true })
   end
@@ -95,6 +100,7 @@ local function setup_keymaps(opts, bufnr)
     set_keymap("n", opts.keymaps.workspace_symbols, workspace_symbols, bufnr, "LSP workspace symbols")
     set_keymap("n", opts.keymaps.code_action, vim.lsp.buf.code_action, bufnr, "LSP code action")
     set_keymap("n", opts.keymaps.rename, vim.lsp.buf.rename, bufnr, "LSP rename")
+    set_keymap("i", opts.keymaps.completion, completion, bufnr, "LSP completion")
     set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics")
   end
 end

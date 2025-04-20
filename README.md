@@ -87,6 +87,7 @@ require("lsp-loader").setup({
     code_action = "<leader>a",
     rename = "<leader>r",
     signature_help = "<c-s>",
+    completion = "<c-space>",
     diagnostics = "<leader>d",
     hover = "K",
   },
