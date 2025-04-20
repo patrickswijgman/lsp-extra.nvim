@@ -6,17 +6,17 @@ local M = {}
 --- @field trigger_on_all_characters? boolean
 
 --- @class lsp_loader.Keymaps
---- @field definition string
---- @field type_definition string
---- @field references string
---- @field implementations string
---- @field document_symbols string
---- @field workspace_symbols string
---- @field code_action string
---- @field rename string
---- @field signature_help string
---- @field diagnostics string
---- @field hover string
+--- @field definition? string
+--- @field type_definition? string
+--- @field references? string
+--- @field implementations? string
+--- @field document_symbols? string
+--- @field workspace_symbols? string
+--- @field code_action? string
+--- @field rename? string
+--- @field signature_help? string
+--- @field diagnostics? string
+--- @field hover? string
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
@@ -41,7 +41,7 @@ end
 
 --- Set keymap.
 --- @param mode string
---- @param keymap string
+--- @param keymap? string
 --- @param bufnr integer
 --- @param desc string
 local function set_keymap(mode, keymap, fn, bufnr, desc, remap)
