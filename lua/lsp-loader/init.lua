@@ -47,7 +47,7 @@ end
 --- Set keymap.
 --- @param mode string
 --- @param keymap? string
---- @param bufnr integer
+--- @param bufnr? integer
 --- @param desc string
 local function set_keymap(mode, keymap, fn, bufnr, desc, remap)
   if keymap then
@@ -58,15 +58,15 @@ end
 --- Delete keymap.
 --- @param mode string|string[]
 --- @param keymap string
---- @param bufnr integer
+--- @param bufnr? integer
 local function del_keymap(mode, keymap, bufnr)
   vim.keymap.del(mode, keymap, { buffer = bufnr })
 end
 
---- Setup LSP keymaps.
+--- Set LSP keymaps for the given buffer.
 --- @param opts lsp_loader.Opts
 --- @param bufnr integer
-local function setup_keymaps(opts, bufnr)
+local function set_keymaps(opts, bufnr)
   local function hover()
     vim.lsp.buf.hover(opts.hover)
   end
@@ -95,15 +95,6 @@ local function setup_keymaps(opts, bufnr)
   local signature_help_keymap = "<c-s>"
   if opts.keymaps and opts.keymaps.signature_help then
     signature_help_keymap = opts.keymaps.signature_help
-  end
-
-  -- See |lsp-defaults-disable|
-  if opts.remove_default_keymaps then
-    del_keymap("n", "grn", bufnr)
-    del_keymap({ "n", "x" }, "gra", bufnr)
-    del_keymap("n", "grr", bufnr)
-    del_keymap("n", "gri", bufnr)
-    del_keymap("n", "gO", bufnr)
   end
 
   set_keymap("n", hover_keymap, hover, bufnr, "LSP hover", true)
@@ -154,7 +145,7 @@ local function setup_on_attach(opts)
         client.server_capabilities.semanticTokensProvider = nil
       end
 
-      setup_keymaps(opts, args.buf)
+      set_keymaps(opts, args.buf)
 
       if opts.on_attach then
         opts.on_attach(client, args.buf)
@@ -165,12 +156,26 @@ local function setup_on_attach(opts)
   })
 end
 
+--- Remove the default LSP keymaps.
+--- See |lsp-defaults-disable|
+--- @param opts lsp_loader.Opts
+local function remove_default_keymaps(opts)
+  if opts.remove_default_keymaps then
+    del_keymap("n", "grn")
+    del_keymap({ "n", "x" }, "gra")
+    del_keymap("n", "grr")
+    del_keymap("n", "gri")
+    del_keymap("n", "gO")
+  end
+end
+
 --- @param opts? lsp_loader.Opts
 function M.setup(opts)
   if not opts then
     opts = {}
   end
 
+  remove_default_keymaps(opts)
   setup_language_servers(opts)
   setup_on_attach(opts)
 end
