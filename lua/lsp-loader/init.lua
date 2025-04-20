@@ -22,11 +22,11 @@ local M = {}
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
+--- @field completion? lsp_loader.CompletionOpts
 --- @field hover? lsp_loader.HoverOpts
 --- @field signature_help? lsp_loader.SignatureHelpOpts
---- @field completion? lsp_loader.CompletionOpts
---- @field keymaps? lsp_loader.Keymaps
 --- @field disable_semantic_tokens? boolean
+--- @field keymaps? lsp_loader.Keymaps
 --- @field on_attach? fun(client: vim.lsp.Client, bufnr: integer)
 
 --- Automatically load language servers in the lsp config directory.

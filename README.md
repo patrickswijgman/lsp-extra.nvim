@@ -45,31 +45,28 @@ require("lsp-loader").setup({
     "lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
   },
 
-  -- Set options for the hover window.
+  -- Setup builtin LSP completion.
   --
-  -- For example if you have cmp or blink.cmp configured to have window borders,
-  -- then this will fit in nicely.
+  -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
+  completion = {
+    autotrigger = true,
+    -- Contains an extra option to trigger the completion menu on all characters, normally
+    -- it only triggers when pressing the dot/period character (depends on the language server).
+    trigger_on_all_characters = true,
+  },
+
+  -- Set options for the hover window.
   hover = {
+    -- For example if you have cmp or blink.cmp configured to have window borders,
+    -- then this will fit in nicely.
     border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
   },
 
   -- Set options for the signature help window.
-  --
-  -- For example if you have cmp or blink.cmp configured to have window borders,
-  -- then this will fit in nicely.
   signature_help = {
+    -- For example if you have cmp or blink.cmp configured to have window borders,
+    -- then this will fit in nicely.
     border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
-  },
-
-  -- Setup builtin LSP completion.
-  --
-  -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
-  --
-  -- Contains an extra option to trigger the completion menu on all characters, normally
-  -- it only triggers when pressing the '.' character (depends on the language server).
-  completion = {
-    autotrigger = true,
-    trigger_on_all_characters = true,
   },
 
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
