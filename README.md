@@ -80,3 +80,6 @@ return {
 	},
 }
 ```
+
+> [!TIP]
+> Execute the `:checkhealth lsp` command to see if your language servers have loaded correctly.
