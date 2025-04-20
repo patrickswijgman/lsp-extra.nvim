@@ -26,7 +26,7 @@ Plus this plugin contains some nifty LSP-related extras to help you setup LSP wi
 
 ### Without package manager (if you use Nix)
 
-Create the `lsp-loader.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup options.
+Create the `lsp-loader.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup instructions.
 
 ## Configuration
 
