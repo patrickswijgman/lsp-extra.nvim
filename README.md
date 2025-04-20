@@ -69,7 +69,7 @@ require("lsp-loader").setup({
   -- Setup keymaps for LSP actions.
   --
   -- If you're like me and don't like the builtin LSP keymaps, this plugin provides a
-  -- convenient way to change one or all of them.
+  -- convenient way to set some or all of them.
   keymaps = {
     -- Below is an example (Helix style)
     definition = "gd",
