@@ -76,12 +76,11 @@ require("lsp-loader").setup({
 
   -- Set this to true to remove default LSP keymaps.
   --
-  -- For example 'grr' and 'gra' are mapped by default which does not play
-  -- nicely if we want to map 'gr' to 'references' (see below).
-  --
-  -- NOTE that this removes the 'gr{n,a,r,i}', 'gO', 'K' (hover) and '<c-s>' (signature_help) maps.
   -- Be sure to add your own mappings in the `keymaps` option.
   -- See `:h lsp-defaults-disable` for more info.
+  --
+  -- For example 'grr' and 'gra' are mapped by default which does not play
+  -- nicely if we want to map 'gr' to 'references' (see below).
   remove_default_keymaps = true,
 
   -- Setup keymaps for LSP actions.
