@@ -1,5 +1,9 @@
 local M = {}
 
+--- @class lsp_loader.HoverOpts : vim.lsp.buf.hover.Opts
+
+--- @class lsp_loader.SignatureHelpOpts : vim.lsp.buf.signature_help.Opts
+
 --- @class lsp_loader.CompletionOpts : vim.lsp.completion.BufferOpts
 --- @field trigger_on_all_characters? boolean
 
@@ -18,7 +22,8 @@ local M = {}
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
---- @field border? "single" | "double" | "rounded" | "solid" | "shadow"
+--- @field hover? lsp_loader.HoverOpts
+--- @field signature_help? lsp_loader.SignatureHelpOpts
 --- @field completion? lsp_loader.CompletionOpts
 --- @field keymaps? lsp_loader.Keymaps
 --- @field disable_semantic_tokens? boolean
@@ -53,11 +58,11 @@ end
 --- @param bufnr integer
 local function setup_keymaps(opts, bufnr)
   local function hover()
-    vim.lsp.buf.hover({ border = opts.border })
+    vim.lsp.buf.hover(opts.hover)
   end
 
   local function signature_help()
-    vim.lsp.buf.signature_help({ border = opts.border })
+    vim.lsp.buf.signature_help(opts.signature_help)
   end
 
   local function workspace_symbols()

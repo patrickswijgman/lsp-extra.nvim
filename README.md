@@ -45,11 +45,21 @@ require("lsp-loader").setup({
     "lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
   },
 
-  -- Set border for floating windows such as hover and signature help.
+  -- Set options for the hover window.
   --
   -- For example if you have cmp or blink.cmp configured to have window borders,
   -- then this will fit in nicely.
-  border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
+  hover = {
+    border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
+  },
+
+  -- Set options for the signature help window.
+  --
+  -- For example if you have cmp or blink.cmp configured to have window borders,
+  -- then this will fit in nicely.
+  signature_help = {
+    border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
+  },
 
   -- Setup builtin LSP completion.
   --
