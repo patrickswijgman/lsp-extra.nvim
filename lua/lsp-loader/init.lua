@@ -118,7 +118,7 @@ local function setup_on_attach(opts)
           client.server_capabilities.completionProvider.triggerCharacters = triggerCharacters
         end
 
-        vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+        vim.lsp.completion.enable(true, client.id, args.buf, opts.completion)
       end
 
       if opts.disable_semantic_tokens then
