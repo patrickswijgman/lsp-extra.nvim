@@ -1,7 +1,5 @@
 local M = {}
 
---- @class lsp_loader.HoverOpts : vim.lsp.buf.hover.Opts
-
 --- @class lsp_loader.CompletionOpts : vim.lsp.completion.BufferOpts
 --- @field trigger_on_all_characters? boolean
 
@@ -20,7 +18,7 @@ local M = {}
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
---- @field hover? lsp_loader.HoverOpts
+--- @field border? "single" | "double" | "rounded" | "solid" | "shadow"
 --- @field completion? lsp_loader.CompletionOpts
 --- @field keymaps? lsp_loader.Keymaps
 --- @field disable_semantic_tokens? boolean
@@ -55,7 +53,11 @@ end
 --- @param bufnr integer
 local function setup_keymaps(opts, bufnr)
   local function hover()
-    vim.lsp.buf.hover(opts.hover)
+    vim.lsp.buf.hover({ border = opts.border })
+  end
+
+  local function signature_help()
+    vim.lsp.buf.signature_help({ border = opts.border })
   end
 
   local function workspace_symbols()
@@ -71,7 +73,13 @@ local function setup_keymaps(opts, bufnr)
     hover_keymap = opts.keymaps.hover
   end
 
+  local signature_help_keymap = "<c-s>"
+  if opts.keymaps and opts.keymaps.signature_help then
+    signature_help_keymap = opts.keymaps.signature_help
+  end
+
   set_keymap("n", hover_keymap, hover, bufnr, "LSP hover", true)
+  set_keymap("i", signature_help_keymap, signature_help, bufnr, "LSP signature help")
 
   if opts.keymaps then
     set_keymap("n", opts.keymaps.definition, vim.lsp.buf.definition, bufnr, "LSP definition")
@@ -82,7 +90,6 @@ local function setup_keymaps(opts, bufnr)
     set_keymap("n", opts.keymaps.workspace_symbols, workspace_symbols, bufnr, "LSP workspace symbols")
     set_keymap("n", opts.keymaps.code_action, vim.lsp.buf.code_action, bufnr, "LSP code action")
     set_keymap("n", opts.keymaps.rename, vim.lsp.buf.rename, bufnr, "LSP rename")
-    set_keymap("i", opts.keymaps.signature_help, vim.lsp.buf.signature_help, bufnr, "LSP signature help")
     set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics")
   end
 end

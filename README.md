@@ -45,13 +45,11 @@ require("lsp-loader").setup({
     "lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
   },
 
-  -- Set options for the floating documentation window when pressing K.
+  -- Set border for floating windows such as hover and signature help.
   --
   -- For example if you have cmp or blink.cmp configured to have window borders,
   -- then this will fit in nicely.
-  hover = {
-    border = "rounded",
-  },
+  border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
 
   -- Setup builtin LSP completion.
   --
