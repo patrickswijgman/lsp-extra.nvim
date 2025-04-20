@@ -51,7 +51,7 @@ require("lsp-loader").setup({
   completion = {
     autotrigger = true,
     -- Contains an extra option to trigger the completion menu on all characters, normally
-    -- it only triggers when pressing the dot/period character (depends on the language server).
+    -- it only triggers when pressing the dot character (depends on the language server).
     trigger_on_all_characters = true,
   },
 
