@@ -28,9 +28,9 @@ require("lsp-loader").setup({
 	hover = {
 		border = "rounded",
 	},
-	-- Disable LSP semantic tokens, for example to prevent race conditions with Treesitter.
+	-- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
 	disable_semantic_tokens = true,
-	-- On attach function for all language server, set keymaps here for example.
+	-- On attach function for all language servers, set keymaps here for example.
 	on_attach = function(client, bufnr)
 		vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, { buffer = bufnr, desc = "LSP code action" })
 		vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = bufnr, desc = "LSP rename" })
