@@ -82,7 +82,7 @@ require("lsp-loader").setup({
     -- See `:h lsp-defaults-disable` for more info.
     --
     -- For example 'grr' and 'gra' are mapped by default which does not play
-    -- nicely if we map 'gr' to 'references' (see below)
+    -- nicely if we want to map 'gr' to 'references' (see below).
     remove_defaults = true,
 
     -- Below is an example (Helix style)
