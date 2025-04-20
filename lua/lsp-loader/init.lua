@@ -5,10 +5,24 @@ local M = {}
 --- @class lsp_loader.CompletionOpts : vim.lsp.completion.BufferOpts
 --- @field trigger_on_all_characters? boolean
 
+--- @class lsp_loader.Keymaps
+--- @field definition string
+--- @field type_definition string
+--- @field references string
+--- @field implementations string
+--- @field document_symbols string
+--- @field workspace_symbols string
+--- @field code_action string
+--- @field rename string
+--- @field signature_help string
+--- @field diagnostics string
+--- @field hover string
+
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
 --- @field hover? lsp_loader.HoverOpts
 --- @field completion? lsp_loader.CompletionOpts
+--- @field keymaps? lsp_loader.Keymaps
 --- @field disable_semantic_tokens? boolean
 --- @field on_attach? fun(client: vim.lsp.Client, bufnr: integer)
 
@@ -25,14 +39,52 @@ local function setup_language_servers(opts)
   end
 end
 
---- Override default LSP keymaps with options.
+--- Set keymap.
+--- @param mode string
+--- @param keymap string
+--- @param bufnr integer
+--- @param desc string
+local function set_keymap(mode, keymap, fn, bufnr, desc, remap)
+  if keymap then
+    vim.keymap.set(mode, keymap, fn, { buffer = bufnr, desc = desc, remap = remap })
+  end
+end
+
+--- Setup LSP keymaps.
 --- @param opts lsp_loader.Opts
-local function setup_keymaps(opts)
+--- @param bufnr integer
+local function setup_keymaps(opts, bufnr)
   local function hover()
     vim.lsp.buf.hover(opts.hover)
   end
 
-  vim.keymap.set("n", "K", hover, { desc = "LSP hover", remap = true })
+  local function workspace_symbols()
+    vim.lsp.buf.workspace_symbol("")
+  end
+
+  local function diagnostics()
+    vim.diagnostic.setqflist({ open = true })
+  end
+
+  local hover_keymap = "K"
+  if opts.keymaps and opts.keymaps.hover then
+    hover_keymap = opts.keymaps.hover
+  end
+
+  set_keymap("n", hover_keymap, hover, bufnr, "LSP hover", true)
+
+  if opts.keymaps then
+    set_keymap("n", opts.keymaps.definition, vim.lsp.buf.definition, bufnr, "LSP definition")
+    set_keymap("n", opts.keymaps.type_definition, vim.lsp.buf.type_definition, bufnr, "LSP type definition")
+    set_keymap("n", opts.keymaps.references, vim.lsp.buf.references, bufnr, "LSP references")
+    set_keymap("n", opts.keymaps.implementations, vim.lsp.buf.implementation, bufnr, "LSP implementations")
+    set_keymap("n", opts.keymaps.document_symbols, vim.lsp.buf.document_symbol, bufnr, "LSP document symbols")
+    set_keymap("n", opts.keymaps.workspace_symbols, workspace_symbols, bufnr, "LSP workspace symbols")
+    set_keymap("n", opts.keymaps.code_action, vim.lsp.buf.code_action, bufnr, "LSP code action")
+    set_keymap("n", opts.keymaps.rename, vim.lsp.buf.rename, bufnr, "LSP rename")
+    set_keymap("i", opts.keymaps.signature_help, vim.lsp.buf.signature_help, bufnr, "LSP signature help")
+    set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics")
+  end
 end
 
 --- Setup LSP on attach autocmd.
@@ -67,6 +119,8 @@ local function setup_on_attach(opts)
         client.server_capabilities.semanticTokensProvider = nil
       end
 
+      setup_keymaps(opts, args.buf)
+
       if opts.on_attach then
         opts.on_attach(client, args.buf)
       end
@@ -83,7 +137,6 @@ function M.setup(opts)
   end
 
   setup_language_servers(opts)
-  setup_keymaps(opts)
   setup_on_attach(opts)
 end
 

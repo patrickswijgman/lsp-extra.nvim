@@ -9,15 +9,34 @@ This small plugin loads those LSP configs automatically for you! Then you no lon
 
 Plus this plugin contains some nifty LSP-related extras to help you setup LSP within Neovim more easily.
 
-## Setup
+## Installation
 
-If you just want to load the language servers automatically and nothing else you can setup the plugin like so:
+### With lazy.nvim
+
+```lua
+{
+  'patrickswijgman/lsp-loader.nvim',
+  ---@module 'lsp-loader'
+  ---@type lsp_loader.Opts
+  opts = {
+    -- See setup options below.
+  },
+}
+```
+
+### Without package manager (if you use Nix)
+
+Create the `lsp-loader.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup options.
+
+## Configuration
+
+If you just want to load the language servers automatically and nothing else you can setup without passing `opts`.
 
 ```lua
 require("lsp-loader").setup()
 ```
 
-### Example (with all available options)
+See below for setup with all available options.
 
 ```lua
 require("lsp-loader").setup({
@@ -25,23 +44,49 @@ require("lsp-loader").setup({
   disabled = {
     "lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
   },
+
   -- Set options for the floating documentation window when pressing K.
-  -- For example if you have cmp or blink.cmp configured to have window borders, then this will fit in nicely.
+  --
+  -- For example if you have cmp or blink.cmp configured to have window borders,
+  -- then this will fit in nicely.
   hover = {
     border = "rounded",
   },
+
   -- Setup builtin LSP completion.
-  -- Contains an extra option to trigger the completion menu on all characters, normally it would only trigger when pressing the '.' character (depends on the language server).
+  --
   -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
+  --
+  -- Contains an extra option to trigger the completion menu on all characters, normally
+  -- it only triggers when pressing the '.' character (depends on the language server).
   completion = {
     trigger_on_all_characters = true,
   },
+
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
   disable_semantic_tokens = true,
-  -- On attach function for all language servers, set keymaps here for example.
+
+  -- Setup keymaps for LSP actions.
+  --
+  -- If you're like me and don't like the builtin LSP keymaps, this plugin provides a
+  -- convenient way to change one or all of them.
+  keymaps = {
+    -- Below is an example (Helix style)
+    definition = "gd",
+    type_definition = "gy",
+    references = "gr",
+    implementations = "gi",
+    document_symbols = "gs",
+    workspace_symbols = "gS",
+    code_action = "<leader>a",
+    rename = "<leader>r",
+    signature_help = "<c-s>"
+    diagnostics = "<leader>d",
+    hover = "K",
+  },
+
+  -- On attach function for all language servers.
   on_attach = function(client, bufnr)
-    vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, { buffer = bufnr, desc = "LSP code action" })
-    vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = bufnr, desc = "LSP rename" })
   end,
 })
 ```
