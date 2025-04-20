@@ -1,8 +1,14 @@
 local M = {}
 
+--- @class lsp_loader.HoverOpts : vim.lsp.buf.hover.Opts
+
+--- @class lsp_loader.CompletionOpts : vim.lsp.completion.BufferOpts
+--- @field trigger_on_all_characters? boolean
+
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
---- @field hover? vim.lsp.buf.hover.Opts
+--- @field hover? lsp_loader.HoverOpts
+--- @field completion? lsp_loader.CompletionOpts
 --- @field disable_semantic_tokens? boolean
 --- @field on_attach? fun(client: vim.lsp.Client, bufnr: integer)
 
@@ -29,10 +35,17 @@ local function setup_keymaps(opts)
 	vim.keymap.set("n", "K", hover, { desc = "LSP hover", remap = true })
 end
 
---- Setup LSP auto commands.
+--- Setup LSP on attach autocmd.
 --- @param opts lsp_loader.Opts
-local function setup_autocmds(opts)
+local function setup_on_attach(opts)
 	local group = vim.api.nvim_create_augroup("LspLoader", { clear = true })
+
+	-- Common characters.
+	-- See |lsp-attach|
+	local triggerCharacters = {}
+	for i = 32, 126 do
+		table.insert(triggerCharacters, string.char(i))
+	end
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		callback = function(args)
@@ -40,6 +53,14 @@ local function setup_autocmds(opts)
 
 			if not client then
 				return
+			end
+
+			if opts.completion and client:supports_method("textDocument/completion") then
+				if opts.completion.trigger_on_all_characters then
+					client.server_capabilities.completionProvider.triggerCharacters = triggerCharacters
+				end
+
+				vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 			end
 
 			if opts.disable_semantic_tokens then
@@ -63,7 +84,7 @@ function M.setup(opts)
 
 	setup_language_servers(opts)
 	setup_keymaps(opts)
-	setup_autocmds(opts)
+	setup_on_attach(opts)
 end
 
 return M

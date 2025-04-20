@@ -7,9 +7,11 @@ Since Neovim 0.11 it is possible to define your LSP configs in the `~/.config/nv
 
 This small plugin loads those LSP configs automatically for you! Then you no longer need to call `vim.lsp.enable` for each one.
 
+Plus this plugin contains some nifty LSP-related extras to help you setup LSP within Neovim more easily.
+
 ## Setup
 
-All options are optional, to simply load the language servers automatically you can do:
+If you just want to load the language servers automatically and nothing else you can setup the plugin like so:
 
 ```lua
 require("lsp-loader").setup()
@@ -24,10 +26,16 @@ require("lsp-loader").setup({
 		"lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
 	},
 	-- Set options for the floating documentation window when pressing K.
-	-- For example if you have cmp or blink.cmp configured to have window borders, this will then fit in nicely.
+	-- For example if you have cmp or blink.cmp configured to have window borders, then this will fit in nicely.
 	hover = {
-		border = "rounded",
+	    border = "rounded",
 	},
+    -- Setup builtin LSP completion.
+    -- Contains an extra option to trigger the completion menu on all characters, normally it would only trigger when pressing the '.' character (depends on the language server).
+    -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
+    completion = {
+        trigger_on_all_characters = true,
+    },
 	-- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
 	disable_semantic_tokens = true,
 	-- On attach function for all language servers, set keymaps here for example.
