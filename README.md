@@ -1,7 +1,7 @@
 # LSP Loader
 
-[!IMPORTANT]
-Requires Neovim 0.11+
+> [!IMPORTANT]
+> Requires Neovim 0.11+
 
 Since Neovim 0.11 it is possible to define your LSP configs in the `~/.config/nvim/lsp/` directory.
 
