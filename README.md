@@ -30,10 +30,53 @@ require("lsp-loader").setup({
 	},
 	-- Disable LSP semantic tokens, for example to prevent race conditions with Treesitter.
 	disable_semantic_tokens = true,
-	-- On attach function for each language server, set keymaps here for example.
+	-- On attach function for all language server, set keymaps here for example.
 	on_attach = function(client, bufnr)
 		vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, { buffer = bufnr, desc = "LSP code action" })
 		vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = bufnr, desc = "LSP rename" })
 	end,
 })
+```
+
+## Setting up language servers
+
+> [!TIP]
+> See [nvim-lspconfig docs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md) for language server configs.
+
+To setup language servers, for each one you can create a file in `~/.config/nvim/lsp/`. For example `lua_ls.lua`:
+
+```lua
+--- @type vim.lsp.Config
+return {
+	cmd = { "lua-language-server" },
+	filetypes = {
+		"lua",
+	},
+	root_markers = {
+		".luarc.json",
+		".luarc.jsonc",
+		".luacheckrc",
+		".stylua.toml",
+		"stylua.toml",
+		"selene.toml",
+		"selene.yml",
+		".git",
+	},
+	settings = {
+		Lua = {
+			runtime = {
+				-- Tell the language server which version of Lua you're using
+				-- (most likely LuaJIT in the case of Neovim)
+				version = "LuaJIT",
+			},
+			-- Make the server aware of Neovim runtime files
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME,
+				},
+			},
+		},
+	},
+}
 ```
