@@ -16,8 +16,8 @@ Plus this plugin contains some nifty LSP-related extras to help you setup LSP wi
 ```lua
 {
   'patrickswijgman/lsp-loader.nvim',
-  ---@module 'lsp-loader'
-  ---@type lsp_loader.Opts
+  --- @module 'lsp-loader'
+  --- @type lsp_loader.Opts
   opts = {
     -- See setup options below.
   },

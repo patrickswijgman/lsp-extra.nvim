@@ -92,7 +92,6 @@ end
 local function setup_on_attach(opts)
   local group = vim.api.nvim_create_augroup("LspLoader", { clear = true })
 
-  -- Common characters.
   -- See |lsp-attach|
   local triggerCharacters = {}
   for i = 32, 126 do
