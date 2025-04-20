@@ -56,6 +56,7 @@ require("lsp-loader").setup({
   },
 
   -- Set options for the hover window.
+  --
   -- REQUIRES that it is added in the `keymaps` option for it to work.
   hover = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
@@ -64,6 +65,7 @@ require("lsp-loader").setup({
   },
 
   -- Set options for the signature help window.
+  --
   -- REQUIRES that it is added in the `keymaps` option for it to work.
   signature_help = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
