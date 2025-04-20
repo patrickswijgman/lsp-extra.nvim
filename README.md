@@ -28,14 +28,14 @@ require("lsp-loader").setup({
 	-- Set options for the floating documentation window when pressing K.
 	-- For example if you have cmp or blink.cmp configured to have window borders, then this will fit in nicely.
 	hover = {
-	    border = "rounded",
+		border = "rounded",
 	},
-    -- Setup builtin LSP completion.
-    -- Contains an extra option to trigger the completion menu on all characters, normally it would only trigger when pressing the '.' character (depends on the language server).
-    -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
-    completion = {
-        trigger_on_all_characters = true,
-    },
+	-- Setup builtin LSP completion.
+	-- Contains an extra option to trigger the completion menu on all characters, normally it would only trigger when pressing the '.' character (depends on the language server).
+	-- Not needed if you have already have a completion plugin like cmp or blink.cmp.
+	completion = {
+		trigger_on_all_characters = true,
+	},
 	-- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
 	disable_semantic_tokens = true,
 	-- On attach function for all language servers, set keymaps here for example.
