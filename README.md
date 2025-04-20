@@ -77,6 +77,14 @@ require("lsp-loader").setup({
   -- If you're like me and don't like the builtin LSP keymaps, this plugin provides a
   -- convenient way to set some or all of them.
   keymaps = {
+    -- Set this to true to remove default LSP keymaps.
+    --
+    -- See `:h lsp-defaults-disable` for more info.
+    --
+    -- For example by default 'grr' and 'gra' are mapped by default which does then
+    -- not play nicely if we map 'gr' to 'references' (see below)
+    remove_defaults = true,
+
     -- Below is an example (Helix style)
     definition = "gd",
     type_definition = "gy",

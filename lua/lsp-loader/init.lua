@@ -8,6 +8,7 @@ local M = {}
 --- @field trigger_on_all_characters? boolean
 
 --- @class lsp_loader.Keymaps
+--- @field remove_defaults? boolean
 --- @field definition? string
 --- @field type_definition? string
 --- @field references? string
@@ -17,9 +18,9 @@ local M = {}
 --- @field code_action? string
 --- @field rename? string
 --- @field signature_help? string
+--- @field completion? string
 --- @field diagnostics? string
 --- @field hover? string
---- @field completion? string
 
 --- @class lsp_loader.Opts
 --- @field disabled? string[]
@@ -54,6 +55,14 @@ local function set_keymap(mode, keymap, fn, bufnr, desc, remap)
   end
 end
 
+--- Delete keymap.
+--- @param mode string|string[]
+--- @param keymap string
+--- @param bufnr integer
+local function del_keymap(mode, keymap, bufnr)
+  vim.keymap.del(mode, keymap, { buffer = bufnr })
+end
+
 --- Setup LSP keymaps.
 --- @param opts lsp_loader.Opts
 --- @param bufnr integer
@@ -86,6 +95,15 @@ local function setup_keymaps(opts, bufnr)
   local signature_help_keymap = "<c-s>"
   if opts.keymaps and opts.keymaps.signature_help then
     signature_help_keymap = opts.keymaps.signature_help
+  end
+
+  -- See |lsp-defaults-disable|
+  if opts.keymaps.remove_defaults then
+    del_keymap("n", "grn", bufnr)
+    del_keymap({ "n", "x" }, "gra", bufnr)
+    del_keymap("n", "grr", bufnr)
+    del_keymap("n", "gri", bufnr)
+    del_keymap("n", "gO", bufnr)
   end
 
   set_keymap("n", hover_keymap, hover, bufnr, "LSP hover", true)
