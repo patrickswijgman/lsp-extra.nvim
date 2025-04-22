@@ -75,14 +75,14 @@ end
 local function remove_default_keymaps(opts, bufnr)
   if opts.remove_default_keymaps then
     if bufnr then
-      del_keymap("n", "K", bufnr)
+      pcall(del_keymap, "n", "K", bufnr)
     else
-      del_keymap("n", "grn")
-      del_keymap({ "n", "x" }, "gra")
-      del_keymap("n", "grr")
-      del_keymap("n", "gri")
-      del_keymap("n", "gO")
-      del_keymap("i", "<c-s>")
+      pcall(del_keymap, "n", "grn")
+      pcall(del_keymap, { "n", "x" }, "gra")
+      pcall(del_keymap, "n", "grr")
+      pcall(del_keymap, "n", "gri")
+      pcall(del_keymap, "n", "gO")
+      pcall(del_keymap, "i", "<c-s>")
     end
   end
 end
