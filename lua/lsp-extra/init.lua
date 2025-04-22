@@ -44,7 +44,7 @@ local function setup_language_servers(opts)
 
   for _, file in ipairs(lsp_files) do
     local name = file:gsub("%.lua$", "")
-    local enabled = not opts.auto_enable_ignore and not vim.tbl_contains(opts.auto_enable_ignore, name)
+    local enabled = not opts.auto_enable_ignore or not vim.tbl_contains(opts.auto_enable_ignore, name)
     vim.lsp.enable(name, enabled)
   end
 end
