@@ -3,11 +3,15 @@
 > [!IMPORTANT]
 > Requires Neovim 0.11+
 
-Since Neovim 0.11 it is possible to define your LSP configs in the `~/.config/nvim/lsp/` directory.
+Some nifty features to help you setup the Neovim LSP more easily.
 
-This small plugin loads those LSP configs automatically for you! Then you no longer need to call `vim.lsp.enable` for each one.
+## Features
 
-Plus this plugin contains some nifty LSP-related extras to help you setup LSP within Neovim more easily.
+1. Automatically load your LSP configs in the `~/.config/nvim/lsp/` directory.
+1. Setup builtin auto completion with LSP capabilities.
+1. Set options for the floating windows such as hover and signature help.
+1. Disable LSP semantic tokens if you use Treesitter.
+1. Conveniently set LSP keymaps.
 
 ## Installation
 
