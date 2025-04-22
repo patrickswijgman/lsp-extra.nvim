@@ -1,13 +1,13 @@
 local M = {}
 
---- @class lsp_loader.HoverOpts : vim.lsp.buf.hover.Opts
+--- @class lsp_extra.HoverOpts : vim.lsp.buf.hover.Opts
 
---- @class lsp_loader.SignatureHelpOpts : vim.lsp.buf.signature_help.Opts
+--- @class lsp_extra.SignatureHelpOpts : vim.lsp.buf.signature_help.Opts
 
---- @class lsp_loader.CompletionOpts : vim.lsp.completion.BufferOpts
+--- @class lsp_extra.CompletionOpts : vim.lsp.completion.BufferOpts
 --- @field trigger_on_all_characters? boolean
 
---- @class lsp_loader.Keymaps
+--- @class lsp_extra.Keymaps
 --- @field definition? string
 --- @field type_definition? string
 --- @field references? string
@@ -21,31 +21,36 @@ local M = {}
 --- @field signature_help? string
 --- @field hover? string
 
---- @class lsp_loader.Opts
---- @field disabled? string[]
---- @field completion? lsp_loader.CompletionOpts
---- @field hover? lsp_loader.HoverOpts
---- @field signature_help? lsp_loader.SignatureHelpOpts
+--- @class lsp_extra.Opts
+--- @field auto_enable? boolean
+--- @field auto_enable_ignore? string[]
+--- @field completion? lsp_extra.CompletionOpts
+--- @field hover? lsp_extra.HoverOpts
+--- @field signature_help? lsp_extra.SignatureHelpOpts
 --- @field disable_semantic_tokens? boolean
 --- @field remove_default_keymaps? boolean
---- @field keymaps? lsp_loader.Keymaps
+--- @field keymaps? lsp_extra.Keymaps
 --- @field on_attach? fun(client: vim.lsp.Client, bufnr: integer)
 
 --- Automatically load language servers in the lsp config directory.
---- @param opts lsp_loader.Opts
+--- @param opts lsp_extra.Opts
 local function setup_language_servers(opts)
+  if not opts.auto_enable then
+    return
+  end
+
   local lsp_dir = vim.fn.stdpath("config") .. "/lsp"
   local lsp_files = vim.fn.readdir(lsp_dir) --- @type string[]
 
   for _, file in ipairs(lsp_files) do
     local name = file:gsub("%.lua$", "")
-    local enabled = not opts.disabled or not vim.tbl_contains(opts.disabled, name)
+    local enabled = not opts.auto_enable_ignore and not vim.tbl_contains(opts.auto_enable_ignore, name)
     vim.lsp.enable(name, enabled)
   end
 end
 
 --- Set keymap.
---- @param mode string
+--- @param mode string|string[]
 --- @param keymap? string
 --- @param bufnr? integer
 --- @param desc string
@@ -66,7 +71,7 @@ end
 --- Remove the default LSP keymaps.
 --- If [bufnr] is given then it removes only the buffer specific ones.
 --- See |lsp-defaults-disable|
---- @param opts lsp_loader.Opts
+--- @param opts lsp_extra.Opts
 local function remove_default_keymaps(opts, bufnr)
   if opts.remove_default_keymaps then
     if bufnr then
@@ -83,7 +88,7 @@ local function remove_default_keymaps(opts, bufnr)
 end
 
 --- Set LSP keymaps for the given buffer.
---- @param opts lsp_loader.Opts
+--- @param opts lsp_extra.Opts
 --- @param bufnr integer
 local function set_keymaps(opts, bufnr)
   local function hover()
@@ -123,9 +128,9 @@ local function set_keymaps(opts, bufnr)
 end
 
 --- Setup LSP on attach autocmd.
---- @param opts lsp_loader.Opts
+--- @param opts lsp_extra.Opts
 local function setup_on_attach(opts)
-  local group = vim.api.nvim_create_augroup("LspLoader", { clear = true })
+  local group = vim.api.nvim_create_augroup("LspExtra", { clear = true })
 
   -- See |lsp-attach|
   local triggerCharacters = {}
@@ -165,7 +170,7 @@ local function setup_on_attach(opts)
   })
 end
 
---- @param opts? lsp_loader.Opts
+--- @param opts? lsp_extra.Opts
 function M.setup(opts)
   if not opts then
     opts = {}

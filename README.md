@@ -1,4 +1,4 @@
-# LSP Loader
+# LSP Extra
 
 > [!IMPORTANT]
 > Requires Neovim 0.11+
@@ -15,9 +15,9 @@ Plus this plugin contains some nifty LSP-related extras to help you setup LSP wi
 
 ```lua
 {
-  'patrickswijgman/lsp-loader.nvim',
-  --- @module 'lsp-loader'
-  --- @type lsp_loader.Opts
+  'patrickswijgman/lsp-extra.nvim',
+  --- @module 'lsp-extra'
+  --- @type lsp_extra.Opts
   opts = {
     -- See setup options below.
   },
@@ -26,22 +26,17 @@ Plus this plugin contains some nifty LSP-related extras to help you setup LSP wi
 
 ### Without package manager (if you use Nix)
 
-Create the `lsp-loader.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup instructions.
+Create the `lsp-extra.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup instructions.
 
 ## Configuration
 
-If you just want to load the language servers automatically and nothing else you can setup without passing `opts`.
-
 ```lua
-require("lsp-loader").setup()
-```
+require("lsp-extra").setup({
+  -- Automatically enable specific language servers from the `lps/` directory.
+  auto_enable = true,
 
-See below for setup with all available options.
-
-```lua
-require("lsp-loader").setup({
-  -- Disable specific language servers.
-  disabled = {
+  -- Do not automatically enable specific language servers.
+  auto_enable_ignore = {
     "lua_ls", -- Disables `~/.config/nvim/lsp/lua_ls.lua`
   },
 
