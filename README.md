@@ -36,7 +36,7 @@ Create the `lsp-extra.lua` file in the `~/.config/nvim/after/plugin/` directory.
 
 ```lua
 require("lsp-extra").setup({
-  -- Automatically enable specific language servers from the `lps/` directory.
+  -- Automatically enable specific language servers from the `lsp/` directory.
   auto_enable = true,
 
   -- Do not automatically enable specific language servers.
