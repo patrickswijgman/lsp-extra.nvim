@@ -56,6 +56,8 @@ require("lsp-extra").setup({
 
   -- Set options for the hover window.
   --
+  -- See `:h vim.lsp.buf.hover.Opts` for all options.
+  --
   -- REQUIRES that it is added in the `keymaps` option for it to work.
   hover = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
@@ -65,11 +67,13 @@ require("lsp-extra").setup({
 
   -- Set options for the signature help window.
   --
+  -- See `:h vim.lsp.buf.signature_help.Opts` for all options.
+  --
   -- REQUIRES that it is added in the `keymaps` option for it to work.
   signature_help = {
     -- For example if you have cmp or blink.cmp configured to have window borders,
     -- then this will fit in nicely.
-    border = "rounded", -- "single" | "double" | "rounded" | "solid" | "shadow"
+    border = "rounded",
   },
 
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
