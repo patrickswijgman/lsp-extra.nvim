@@ -7,6 +7,8 @@ local M = {}
 --- @class lsp_extra.CompletionOpts : vim.lsp.completion.BufferOpts
 --- @field trigger_on_all_characters? boolean
 
+--- @class lsp_extra.DiagnosticsOpts : vim.diagnostic.Opts
+
 --- @class lsp_extra.Keymaps
 --- @field definition? string
 --- @field type_definition? string
@@ -18,6 +20,7 @@ local M = {}
 --- @field rename? string
 --- @field completion? string
 --- @field diagnostics? string
+--- @field diagnostics_float? string
 --- @field signature_help? string
 --- @field hover? string
 
@@ -27,6 +30,7 @@ local M = {}
 --- @field completion? lsp_extra.CompletionOpts
 --- @field hover? lsp_extra.HoverOpts
 --- @field signature_help? lsp_extra.SignatureHelpOpts
+--- @field diagnostics? lsp_extra.DiagnosticsOpts
 --- @field disable_semantic_tokens? boolean
 --- @field remove_default_keymaps? boolean
 --- @field keymaps? lsp_extra.Keymaps
@@ -121,9 +125,11 @@ local function set_keymaps(opts, bufnr)
     set_keymap("n", opts.keymaps.code_action, vim.lsp.buf.code_action, bufnr, "LSP code action")
     set_keymap("n", opts.keymaps.rename, vim.lsp.buf.rename, bufnr, "LSP rename")
     set_keymap("i", opts.keymaps.completion, completion, bufnr, "LSP completion")
-    set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics")
     set_keymap("i", opts.keymaps.signature_help, signature_help, bufnr, "LSP signature help")
     set_keymap("n", opts.keymaps.hover, hover, bufnr, "LSP hover", true)
+
+    set_keymap("n", opts.keymaps.diagnostics, diagnostics, bufnr, "Diagnostics in open buffers")
+    set_keymap("n", opts.keymaps.diagnostics_float, vim.diagnostic.open_float, bufnr, "Diagnostics for current line")
   end
 end
 
@@ -170,6 +176,12 @@ local function setup_on_attach(opts)
   })
 end
 
+--- Setup diagnostics config.
+--- @param opts lsp_extra.Opts
+local function setup_diagnostics(opts)
+  vim.diagnostic.config(opts.diagnostics)
+end
+
 --- @param opts? lsp_extra.Opts
 function M.setup(opts)
   if not opts then
@@ -178,6 +190,7 @@ function M.setup(opts)
 
   remove_default_keymaps(opts)
   setup_language_servers(opts)
+  setup_diagnostics(opts)
   setup_on_attach(opts)
 end
 

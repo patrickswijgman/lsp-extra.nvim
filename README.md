@@ -10,8 +10,9 @@ Some nifty features to help you setup the Neovim LSP more easily.
 1. Automatically load your LSP configs in the `~/.config/nvim/lsp/` directory.
 1. Setup builtin auto completion with LSP capabilities.
 1. Set options for the floating windows such as hover and signature help.
-1. Disable LSP semantic tokens if you use Treesitter.
+1. Disable LSP semantic tokens, if you use Treesitter for example.
 1. Conveniently set LSP keymaps.
+1. Set diagnostics configuration.
 
 ## Installation
 
@@ -34,6 +35,8 @@ Create the `lsp-extra.lua` file in the `~/.config/nvim/after/plugin/` directory.
 
 ## Configuration
 
+Everything is optional, below is an example configuration with documentation. If you'd like a specific feature you need to enable and/or configure it.
+
 ```lua
 require("lsp-extra").setup({
   -- Automatically enable specific language servers from the `lsp/` directory.
@@ -49,7 +52,7 @@ require("lsp-extra").setup({
   -- Not needed if you have already have a completion plugin like cmp or blink.cmp.
   completion = {
     autotrigger = true,
-    -- Contains an extra option to trigger the completion menu on all characters, normally
+    -- Contains an extra option to trigger the completion menu on all characters. Normally
     -- it only triggers when pressing the dot character (depends on the language server).
     trigger_on_all_characters = true,
   },
@@ -58,10 +61,8 @@ require("lsp-extra").setup({
   --
   -- See `:h vim.lsp.buf.hover.Opts` for all options.
   --
-  -- REQUIRES that it is added in the `keymaps` option for it to work.
+  -- REQUIRED: set `hover` in the `keymaps` option for it to work.
   hover = {
-    -- For example if you have cmp or blink.cmp configured to have window borders,
-    -- then this will fit in nicely.
     border = "rounded",
   },
 
@@ -69,11 +70,20 @@ require("lsp-extra").setup({
   --
   -- See `:h vim.lsp.buf.signature_help.Opts` for all options.
   --
-  -- REQUIRES that it is added in the `keymaps` option for it to work.
+  -- REQUIRED: set `signature_help` in the `keymaps` option for it to work.
   signature_help = {
-    -- For example if you have cmp or blink.cmp configured to have window borders,
-    -- then this will fit in nicely.
     border = "rounded",
+  },
+
+  -- Set options for the diagnostics configuration.
+  --
+  -- See `:h vim.diagnostic.Opts` for all options.
+  diagnostics = {
+    -- For example set the border for the floating window when pressing
+    -- <c-w>d on the current line in normal mode.
+    float = {
+      border = "rounded"
+    }
   },
 
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
@@ -104,6 +114,7 @@ require("lsp-extra").setup({
     rename = "<leader>r",
     completion = "<c-space>",
     diagnostics = "<leader>d",
+    diagnostics_float = "gh",
     signature_help = "<c-s>", -- Required if `signature_help` option is set.
     hover = "K", -- Required if `hover` option is set.
   },
