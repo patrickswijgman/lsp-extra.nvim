@@ -29,7 +29,7 @@ Some nifty features to help you setup the Neovim LSP more easily.
 }
 ```
 
-### Without package manager (if you use Nix)
+### Without package manager
 
 Create the `lsp-extra.lua` file in the `~/.config/nvim/after/plugin/` directory. See [configuration](#configuration) below for setup instructions.
 
@@ -82,8 +82,17 @@ require("lsp-extra").setup({
     -- For example set the border for the floating window when pressing
     -- <c-w>d on the current line in normal mode.
     float = {
-      border = "rounded"
-    }
+      border = "rounded",
+    },
+    virtual_text = {
+      current_line = true,
+    },
+    -- Or use lines instead of text:
+    -- virtual_lines = {
+    --   current_line = true,
+    -- },
+    -- Instead of the `current_line` option you can also set the option
+    -- to `true` to show diagnostics on all lines.
   },
 
   -- Disable LSP semantic tokens, to prevent race conditions with Treesitter.
@@ -128,7 +137,7 @@ require("lsp-extra").setup({
 ## Setting up language servers
 
 > [!TIP]
-> See [nvim-lspconfig docs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md) for language server configs.
+> See [nvim-lspconfig docs](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md) for language server configs. Or use the nvim-lspconfig plugin to setup the LSP servers for you and use this plugin for the extras.
 
 To setup language servers, for each one you can create a file in `~/.config/nvim/lsp/`. For example `lua_ls.lua`:
 

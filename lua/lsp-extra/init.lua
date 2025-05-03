@@ -153,11 +153,11 @@ local function setup_on_attach(opts)
       end
 
       if opts.completion and client:supports_method("textDocument/completion") then
+        vim.lsp.completion.enable(true, client.id, args.buf, opts.completion)
+
         if opts.completion.trigger_on_all_characters then
           client.server_capabilities.completionProvider.triggerCharacters = triggerCharacters
         end
-
-        vim.lsp.completion.enable(true, client.id, args.buf, opts.completion)
       end
 
       if opts.disable_semantic_tokens then
@@ -184,10 +184,7 @@ end
 
 --- @param opts? lsp_extra.Opts
 function M.setup(opts)
-  if not opts then
-    opts = {}
-  end
-
+  opts = opts or {}
   remove_default_keymaps(opts)
   setup_language_servers(opts)
   setup_diagnostics(opts)
