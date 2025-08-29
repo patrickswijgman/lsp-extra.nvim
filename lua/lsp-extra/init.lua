@@ -85,6 +85,7 @@ local function remove_default_keymaps(opts, bufnr)
       pcall(del_keymap, { "n", "x" }, "gra")
       pcall(del_keymap, "n", "grr")
       pcall(del_keymap, "n", "gri")
+      pcall(del_keymap, "n", "grt")
       pcall(del_keymap, "n", "gO")
       pcall(del_keymap, "i", "<c-s>")
     end
