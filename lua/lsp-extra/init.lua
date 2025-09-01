@@ -56,6 +56,7 @@ end
 --- Set keymap.
 --- @param mode string|string[]
 --- @param keymap? string
+--- @param fn function
 --- @param bufnr? integer
 --- @param desc string
 local function set_keymap(mode, keymap, fn, bufnr, desc, remap)
@@ -69,7 +70,7 @@ end
 --- @param keymap string
 --- @param bufnr? integer
 local function del_keymap(mode, keymap, bufnr)
-  vim.keymap.del(mode, keymap, { buffer = bufnr })
+  pcall(vim.keymap.del, mode, keymap, { buffer = bufnr })
 end
 
 --- Remove the default LSP keymaps.
@@ -77,18 +78,20 @@ end
 --- See |lsp-defaults-disable|
 --- @param opts lsp_extra.Opts
 local function remove_default_keymaps(opts, bufnr)
-  if opts.remove_default_keymaps then
-    if bufnr then
-      pcall(del_keymap, "n", "K", bufnr)
-    else
-      pcall(del_keymap, "n", "grn")
-      pcall(del_keymap, { "n", "x" }, "gra")
-      pcall(del_keymap, "n", "grr")
-      pcall(del_keymap, "n", "gri")
-      pcall(del_keymap, "n", "grt")
-      pcall(del_keymap, "n", "gO")
-      pcall(del_keymap, "i", "<c-s>")
-    end
+  if not opts.remove_default_keymaps then
+    return
+  end
+
+  if bufnr then
+    del_keymap("n", "K", bufnr)
+  else
+    del_keymap("n", "grn")
+    del_keymap({ "n", "x" }, "gra")
+    del_keymap("n", "grr")
+    del_keymap("n", "gri")
+    del_keymap("n", "grt")
+    del_keymap("n", "gO")
+    del_keymap("i", "<c-s>")
   end
 end
 
